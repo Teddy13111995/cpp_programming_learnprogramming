@@ -1,56 +1,77 @@
 /*
-A palindrome is a string that reads the same backwards and forwards
-
-For the purpose of this assignment we will only consider alpha charachters and omit all other characters.
-
-A common method to solve is to compare the string to its reverse and if they are equal it must be a palindrome,
-but we will use a deque
+in this challenge you are to display the provided data in a nicely formatted table.
+there are three structures provided.
+the structures work together to create a Tours structure that will contain information about Tours to South America.
+The tours include Countries, Cities within those countries along with population and cost data for each city tour
 */
 
-#include<iostream>
-#include<cctype>
-#include<deque>
+#include <iostream>
+#include <iomanip>
+#include <vector>
+#include <string>
 
-template<typename T>
-void display(const std::deque<T> &d){
-    std::cout<<"[";
-    for(const auto &elem:d){
-        std::cout<<elem<<" ";
+struct City {
+    std::string name;
+    long population;
+    double cost;
+};
+
+// Assume each country has at least 1 city
+struct Country {
+    std::string name;
+    std::vector<City> cities;
+};
+
+struct Tours {
+    std::string title;
+    std::vector<Country> countries;
+};
+
+int main()
+{
+    Tours tours
+        { "Tour Ticket Prices from Miami",
+            {
+                {
+                    "Colombia", { 
+                        { "Bogota", 8778000, 400.98 },
+                        { "Cali", 2401000, 424.12 },
+                        { "Medellin", 2464000, 350.98 },
+                        { "Cartagena", 972000, 345.34 } 
+                    },
+                },
+                {
+                    "Brazil", { 
+                        { "Rio De Janiero", 13500000, 567.45 },
+                        { "Sao Paulo", 11310000, 975.45 },
+                        { "Salvador", 18234000, 855.99 }
+                    },
+                },
+                {
+                    "Chile", { 
+                        { "Valdivia", 260000, 569.12 }, 
+                        { "Santiago", 7040000, 520.00 }
+                },
+            },
+                { "Argentina", { 
+                    { "Buenos Aires", 3010000, 723.77 } 
+                } 
+            },
+        }
+    };
+
+    // Unformatted display so you can see how to access the vector elements
+    std::cout << tours.title << std::endl;
+    for(auto country : tours.countries) {   // loop through the countries
+        std::cout <<std::setw(20)<<std::left<< country.name <<std::endl;
+        for(auto city : country.cities) {       // loop through the cities for each country
+            std::cout << std::setw(20)<<std::left << city.name 
+                          << std::setw(20)<<std::left << city.population 
+                          << std::setw(20)<<std::left << city.cost 
+                          << std::endl;
+        }
     }
-    std::cout<<"]"<<std::endl;
-}
 
-bool palindrome_checker(const std::string &str){
-    std::deque<char> d;
-    for(const char c:str){
-        if(isalpha(c))
-        d.push_back(std::tolower(c));
-    }
-    display(d);
-
-    //bool is_palindrome = true;
-    char c1{};
-    char c2{};
-
-    while(d.size()>1){
-        c1=d.front();
-        c2=d.back();
-        if(c1!=c2)
-        return false;
-        d.pop_back();
-        d.pop_front();
-    }
-    return true;
-
-}
-int main(){
-    std::string pal_str_given{"A Santa at nasa"};
-    std::cout<<"Enter a string: ";
-    std::getline(std::cin,pal_str_given);
-    if(palindrome_checker(pal_str_given)){
-        std::cout<<"Palindrome"<<std::endl;
-    }
-    else
-        std::cout<<"not a Palindrome"<<std::endl;
-
+    std::cout << std::endl << std::endl;
+    return 0;
 }

@@ -14,14 +14,17 @@ Base(int x):value{x}{cout<<"Base overloaded constructor"<<endl;}
 class Derived: public Base{
     private:int doubled_value;
     public:
-    Derived():doubled_value{0}{cout<<"Derived no args constructor"<<endl;}
-    Derived(int x):doubled_value{x*2}{cout<<"Derived overloaded constructor"<<endl;}
+    Derived():Base{}, doubled_value{0}{cout<<"Derived no args constructor"<<endl;}
+    Derived(int x):Base{x},doubled_value{x*2}{cout<<"Derived overloaded constructor"<<endl;}
     ~Derived(){cout<<"Derived destructor"<<endl;}
 };
 
 int main(){
     Base b;
     cout<<endl;
+    Derived de;
+    cout<<endl;
     Derived d{1000};
+    cout<<endl;
     return 0;
 }
